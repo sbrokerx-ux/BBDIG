@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BBDIG — Brown Business Development &amp; Investment Group</title>
+<meta name="description" content="BBDIG helps Illinois cities form Tax Increment Financing districts, win grant funding, and report results, using AI research tools with human sign-off.">
+<meta property="og:title" content="BBDIG — Brown Business Development &amp; Investment Group">
+<meta property="og:description" content="AI-driven economic development, backed by working TIF programs.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bbdig.com/">
+<meta property="og:image" content="https://bbdig.com/assets/img/hero-plaza.jpg">
+<link rel="canonical" href="https://bbdig.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23C08A3E'/%3E%3Ctext x='32' y='38' font-family='Arial' font-weight='800' font-size='15' text-anchor='middle' fill='%230F3D3E'%3EBBDIG%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Layout: civic memo. Teal authority, paper ground, gold reserved for actions. AI tools sit between the hero and the TIF process. */
+  :root{
+    --teal-deep:   #0F3D3E;
+    --teal-bright: #1F8A82;
+    --espresso:    #2E2015;
+    --paper:       #FBF7F0;
+    --white:       #FFFFFF;
+    --gold:        #C08A3E;
+    --gold-hover:  #D39A4A;
+    --gold-band:   #F3E6CF;
+    --line:        rgba(46,32,21,0.12);
+    --muted:       rgba(46,32,21,0.72);
+    --faint:       rgba(46,32,21,0.55);
+    --radius: 4px;
+    --font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+    --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color-scheme: light;
+  }
+
+  *, *::before, *::after{ box-sizing: border-box; }
+  html{ -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; }
+  body{
+    margin: 0;
+    background: var(--paper);
+    color: var(--espresso);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img{ max-width: 100%; display: block; }
+  h1, h2, h3{ font-family: var(--font-display); font-weight: 400; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+  a{ color: inherit; text-decoration: none; }
+  .wrap{ max-width: 1120px; margin: 0 auto; padding-inline: 24px; }
+  @media (max-width: 480px){ .wrap{ padding-inline: 16px; } }
+
+  .eyebrow{
+    display: inline-block;
+    font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--teal-bright);
+    margin-bottom: 12px;
+  }
+
+  /* ---------- MASTHEAD + NAV ---------- */
+  .masthead{ background: var(--teal-deep); color: var(--paper); text-align: center; padding-block: 40px 36px; }
+  .masthead .brand-name{ font-family: var(--font-display); font-size: clamp(1.7rem, 6vw, 2.6rem); line-height: 1.15; margin: 0; }
+  .masthead .brand-tagline{ margin: 16px auto 0; max-width: 46ch; font-size: 15px; font-weight: 600; line-height: 1.6; color: rgba(251,247,240,0.88); }
+
+  header{
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+    background: rgba(251,247,240,0.94);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.wrap{ display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 68px; }
+  .mark{ grid-column: 2; justify-self: center; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+  .mark .badge{
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--gold); color: var(--teal-deep);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800; letter-spacing: -0.02em;
+  }
+  .mark .flank{ font-size: 12px; font-weight: 700; letter-spacing: 0.03em; color: var(--teal-deep); }
+  @media (max-width: 340px){ .mark .flank{ display: none; } }
+  .navlinks{ grid-column: 3; justify-self: end; display: flex; gap: 22px; font-size: 14px; font-weight: 700; }
+  .navlinks a{ color: var(--espresso); opacity: 0.75; }
+  .navlinks a:hover{ opacity: 1; }
+  @media (max-width: 1000px){ .navlinks{ gap: 14px; font-size: 13px; } }
+  @media (max-width: 860px){ .navlinks{ display: none; } nav.wrap{ grid-template-columns: 1fr; } .mark{ grid-column: 1; } }
+
+  /* ---------- BUTTONS ---------- */
+  .btn{
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 46px; padding: 12px 24px;
+    border-radius: var(--radius); border: 1px solid transparent;
+    font: inherit; font-weight: 700; font-size: 15px; line-height: 1.3; text-align: center;
+    cursor: pointer;
+  }
+  .btn:focus-visible{ outline: 2px solid var(--teal-bright); outline-offset: 3px; }
+  .btn-action{ background: var(--gold); color: var(--espresso); font-weight: 800; box-shadow: 0 1px 0 rgba(46,32,21,0.18); }
+  .btn-action:hover{ background: var(--gold-hover); }
+  .btn-ghost{ border-color: var(--teal-deep); color: var(--teal-deep); background: transparent; }
+  .btn-ghost:hover{ background: rgba(15,61,62,0.06); }
+  .btn-teal{ background: var(--teal-deep); color: var(--paper); }
+  .btn-teal:hover{ background: #0B2E2F; }
+  .btn:disabled{ opacity: 0.55; cursor: not-allowed; }
+
+  /* ---------- HERO ---------- */
+  .hero{ position: relative; padding-block: 80px 88px; overflow: hidden; border-bottom: 1px solid var(--line); }
+  .hero-grid{
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 70% 20%, black 10%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 70% 20%, black 10%, transparent 70%);
+  }
+  .hero-inner{ position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+  .hero-inner > div{ min-width: 0; }
+  @media (max-width: 860px){ .hero-inner{ grid-template-columns: 1fr; gap: 36px; } .hero{ padding-block: 56px 64px; } }
+  .hero h1{ font-size: clamp(2.1rem, 5vw, 3.3rem); line-height: 1.1; color: var(--teal-deep); }
+  .hero h1 em{ font-style: normal; color: var(--gold); }
+  .hero .lede{ margin: 22px 0 0; max-width: 48ch; font-size: 17px; color: var(--muted); }
+  .cta-row{ margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-points{ margin: 28px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; font-weight: 700; color: var(--teal-deep); }
+  .hero-points li{ display: flex; align-items: center; gap: 8px; }
+  .hero-points li::before{ content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+  .plaza{ position: relative; aspect-ratio: 3 / 2; max-width: 100%; border-radius: 6px; overflow: hidden; background: rgba(31,138,130,0.08); }
+  .plaza img{ width: 100%; height: 100%; object-fit: cover; }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding-block: 84px; }
+  @media (max-width: 620px){ section{ padding-block: 60px; } }
+  .section-head{ max-width: 60ch; margin-bottom: 40px; }
+  .section-head h2{ font-size: clamp(1.6rem, 3.4vw, 2.3rem); color: var(--teal-deep); }
+  .section-head p{ margin: 14px 0 0; color: var(--muted); font-size: 16px; }
+
+  /* AI solutions */
+  .ai-rule{
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 18px 20px; margin-bottom: 36px;
+    border: 1px solid var(--line); border-left: 3px solid var(--gold);
+    background: var(--white); border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 15px; color: var(--espresso); max-width: 760px;
+  }
+  .ai-rule strong{ color: var(--teal-deep); }
+  .solutions{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+  @media (max-width: 900px){ .solutions{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px){ .solutions{ grid-template-columns: 1fr; } }
+  .solution{ padding: 28px 24px 28px 0; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .solution + .solution{ padding-left: 24px; border-left: 1px solid var(--line); }
+  @media (min-width: 901px){ .solution:nth-child(3n+1){ padding-left: 0; border-left: none; } }
+  @media (max-width: 900px) and (min-width: 601px){ .solution:nth-child(2n+1){ padding-left: 0; border-left: none; } }
+  @media (max-width: 600px){ .solution, .solution + .solution{ padding-left: 0; border-left: none; padding-right: 0; } }
+  .solution .tag{ font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+  .solution h3{ font-size: 21px; color: var(--teal-deep); }
+  .solution p{ margin: 0; font-size: 15px; color: var(--muted); }
+  .solution .gets{ margin-top: auto; padding-top: 6px; font-size: 14px; color: var(--espresso); }
+  .solution .gets-more{ margin-top: 0; padding-top: 0; }
+  .solution .gets b{ font-weight: 800; color: var(--teal-deep); }
+  .solution a.inline{ color: var(--teal-deep); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+
+  /* AI city brief */
+  .brief-band{ background: var(--gold-band); border-top: 1px solid rgba(192,138,62,0.35); border-bottom: 1px solid rgba(192,138,62,0.35); }
+  .brief-grid{ display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 36px; align-items: start; }
+  @media (max-width: 900px){ .brief-grid{ grid-template-columns: 1fr; } }
+  .brief-form{ display: flex; flex-direction: column; gap: 18px; }
+  .field{ display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .field label, .field legend{ font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-deep); padding: 0; }
+  .field-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 480px){ .field-row{ grid-template-columns: 1fr; } }
+  select, input[type="text"], input[type="email"], textarea{
+    width: 100%; font: inherit; font-size: 15px; font-weight: 600;
+    padding: 12px 14px; border: 1px solid rgba(46,32,21,0.22); border-radius: var(--radius);
+    background: var(--white); color: var(--espresso);
+  }
+  textarea{ font-weight: 500; min-height: 96px; resize: vertical; }
+  select:disabled{ opacity: 0.55; }
+  select:focus-visible, input:focus-visible, textarea:focus-visible{ outline: 2px solid var(--teal-bright); outline-offset: 1px; }
+  fieldset.field{ border: 0; margin: 0; padding: 0; }
+  .chips{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .chip{ position: relative; }
+  .chip input{ position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .chip span{
+    display: inline-flex; align-items: center; min-height: 38px; padding: 6px 14px;
+    border: 1px solid rgba(46,32,21,0.22); border-radius: 999px; background: var(--white);
+    font-size: 14px; font-weight: 700; color: var(--espresso);
+  }
+  .chip input:checked + span{ background: var(--teal-deep); border-color: var(--teal-deep); color: var(--paper); }
+  .chip input:focus-visible + span{ outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+  .brief-actions{ display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .brief-note{ margin: 0; font-size: 13px; color: var(--faint); }
+
+  .memo{ background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 10px 30px rgba(46,32,21,0.08); min-width: 0; }
+  .memo-head{ padding: 18px 22px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; }
+  .memo-kicker{ font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+  .memo-title{ font-family: var(--font-display); font-size: 22px; color: var(--teal-deep); margin: 4px 0 0; }
+  .memo-meta{ font-size: 13px; color: var(--faint); font-variant-numeric: tabular-nums; }
+  .memo-body{ padding: 22px; font-size: 15px; min-height: 320px; }
+  .memo-body h4{ font-family: var(--font-display); font-weight: 400; font-size: 18px; color: var(--teal-deep); margin: 18px 0 6px; }
+  .memo-body h4:first-child{ margin-top: 0; }
+  .memo-body p{ margin: 0 0 10px; color: var(--espresso); }
+  .memo-body ul{ margin: 0 0 10px; padding-left: 1.2em; color: var(--espresso); }
+  .memo-body li{ margin-bottom: 5px; }
+  .memo-empty{ color: var(--muted); }
+  .memo-empty ol{ padding-left: 1.2em; margin: 12px 0 0; }
+  .memo-empty li{ margin-bottom: 6px; }
+  .memo-status{ color: var(--faint); font-style: italic; }
+  .memo-foot{ padding: 16px 22px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; background: rgba(243,230,207,0.35); }
+  .memo-foot p{ margin: 0; font-size: 12px; color: var(--faint); max-width: 46ch; }
+
+  /* Community gallery */
+  .community{ border-bottom: 1px solid var(--line); }
+  .gallery{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  @media (max-width: 860px){ .gallery{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
+  .shot{ margin: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .shot img{ width: 100%; max-width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; background: rgba(31,138,130,0.08); }
+
+  /* Process: a real sequence, so it is numbered */
+  .steps{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); counter-reset: step; }
+  @media (max-width: 900px){ .steps{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px){ .steps{ grid-template-columns: 1fr; } }
+  .step{ padding: 28px 22px 28px 0; border-bottom: 1px solid var(--line); min-width: 0; }
+  .step-num{ font-family: var(--font-display); font-size: 15px; color: var(--gold); margin-bottom: 12px; }
+  .step h3{ font-size: 20px; color: var(--teal-deep); margin-bottom: 8px; }
+  .step p{ margin: 0; font-size: 15px; color: var(--muted); }
+  .step .ai-line{ margin-top: 10px; font-size: 13px; font-weight: 700; color: var(--teal-bright); }
+
+  /* Why cities */
+  .whycities{ background: var(--espresso); color: var(--paper); }
+  .whycities .section-head h2, .whycities .section-head p{ color: var(--paper); }
+  .whycities .section-head p{ opacity: 0.8; }
+  .pillars-4{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid rgba(251,247,240,0.15); }
+  @media (max-width: 620px){ .pillars-4{ grid-template-columns: 1fr; } }
+  .pillar{ padding: 30px 28px 30px 0; border-bottom: 1px solid rgba(251,247,240,0.15); min-width: 0; }
+  .pillars-4 .pillar:nth-child(even){ padding-left: 28px; border-left: 1px solid rgba(251,247,240,0.15); }
+  @media (max-width: 620px){ .pillars-4 .pillar:nth-child(even){ padding-left: 0; border-left: none; } }
+  .pillar h3{ font-size: 21px; color: var(--paper); margin-bottom: 10px; }
+  .pillar p{ margin: 0; font-size: 15px; color: rgba(251,247,240,0.75); max-width: 44ch; }
+
+  /* Strategies */
+  .strategy-list{ list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .strategy-list li{ padding-block: 22px; border-bottom: 1px solid var(--line); }
+  .strategy-list h3{ font-size: 19px; color: var(--teal-deep); margin-bottom: 6px; }
+  .strategy-list p{ margin: 0; font-size: 15px; color: var(--muted); max-width: 64ch; }
+
+  /* About */
+  .about{ background: var(--teal-deep); color: var(--paper); }
+  .about .section-head h2{ color: var(--paper); }
+  .about-inner{ display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 48px; }
+  @media (max-width: 780px){ .about-inner{ grid-template-columns: 1fr; gap: 16px; } }
+  .about-inner p{ font-size: 16px; color: rgba(251,247,240,0.84); margin: 0 0 16px; }
+
+  /* Contact */
+  .contact-inner{ display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  @media (max-width: 780px){ .contact-inner{ grid-template-columns: 1fr; } }
+  .contact-list{ list-style: none; margin: 0; padding: 0; }
+  .contact-list li{ padding-block: 18px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; font-size: 15px; flex-wrap: wrap; }
+  .contact-list li span:first-child{ color: var(--faint); }
+  .contact-list li span:last-child{ font-weight: 700; user-select: all; }
+  form.inquire{ display: flex; flex-direction: column; gap: 14px; }
+  form.inquire button{ align-self: flex-start; }
+  .form-status{ margin: 0; font-size: 14px; color: var(--teal-deep); font-weight: 600; }
+
+  footer{ border-top: 1px solid var(--line); padding-block: 28px; font-size: 13px; color: var(--faint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="masthead">
+  <div class="wrap">
+    <p class="brand-name">Brown Business Development and Investment Group</p>
+    <p class="brand-tagline">BBDIG helps cities attract investment, businesses, and development&mdash;and turn economic opportunities into measurable results.</p>
+  </div>
+</div>
+
+<header>
+  <nav class="wrap" aria-label="Primary">
+    <a href="#top" class="mark"><span class="flank">Economic</span><span class="badge">BBDIG</span><span class="flank">Development</span></a>
+    <div class="navlinks">
+      <a href="#ai-solutions">AI Solutions</a>
+      <a href="#city-brief">City Brief</a>
+      <a href="#process">TIF Programs</a>
+      <a href="#why-cities">For Cities</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap hero-inner">
+      <div>
+        <span class="eyebrow">AI-driven economic development</span>
+        <h1>Smarter district planning, backed by <em>working</em> TIF programs.</h1>
+        <p class="lede">BBDIG pairs AI research tools with hands-on project management to help cities form Tax Increment Financing districts, win grant funding, and report results, faster and with less strain on city staff.</p>
+        <div class="cta-row">
+          <a href="#contact" class="btn btn-action">Request a City Economic Development Assessment</a>
+          <a href="#city-brief" class="btn btn-ghost">Try the AI City Brief</a>
+        </div>
+        <ul class="hero-points">
+          <li>Grants only, no bonds</li>
+          <li>AI research, human sign-off</li>
+          <li>Formation through annual reporting</li>
+        </ul>
+      </div>
+      <div class="plaza" aria-hidden="true">
+        <img src="/assets/img/hero-plaza.jpg" alt="">
+      </div>
+    </div>
+  </section>
+
+  <section id="ai-solutions">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">AI Solutions</span>
+        <h2>AI that does the research, so your staff can make the decisions</h2>
+        <p>Economic development runs on documents: parcel records, grant notices, assessment rolls, and annual reports. Our AI tools read and organize that material much faster than staff can by hand.</p>
+      </div>
+      <p class="ai-rule"><span><strong>How we use AI:</strong> AI handles the research and the first drafts. A BBDIG specialist reviews every result before it reaches your city, and nothing is filed without your approval.</span></p>
+      <div class="solutions">
+        <article class="solution">
+          <span class="tag">Funding</span>
+          <h3>AI Grant Match</h3>
+          <p>Scans federal, state, and foundation grant programs and matches them to your district's projects, eligibility rules, and deadlines.</p>
+          <p class="gets"><b>You get:</b> a ranked shortlist of grants worth applying for.</p>
+          <p class="gets gets-more">Powered by <a class="inline" href="https://bgrants.com">BGrants.com</a>, with state-of-the-art AI-driven grant solutions.</p>
+        </article>
+        <article class="solution">
+          <span class="tag">Formation</span>
+          <h3>TIF Eligibility Screening</h3>
+          <p>Reviews parcel, vacancy, and building-age data to flag areas likely to qualify as a blighted, conservation, or industrial park conservation area under the Illinois TIF Act.</p>
+          <p class="gets"><b>You get:</b> a map of candidate boundaries before you commission a full eligibility study.</p>
+        </article>
+        <article class="solution">
+          <span class="tag">Forecasting</span>
+          <h3>Increment Forecasting</h3>
+          <p>Models how equalized assessed value (EAV) could grow above the district's frozen base over its 23-year life, under several development scenarios.</p>
+          <p class="gets"><b>You get:</b> clear projections council members can compare side by side.</p>
+        </article>
+        <article class="solution">
+          <span class="tag">Writing</span>
+          <h3>Grant Application Drafting</h3>
+          <p>Turns project data into first-draft narratives, budgets, and support letters that match each funder's format and scoring criteria.</p>
+          <p class="gets"><b>You get:</b> complete drafts for our grant writers to refine and your staff to approve.</p>
+        </article>
+        <article class="solution">
+          <span class="tag">Compliance</span>
+          <h3>Automated TIF Reporting</h3>
+          <p>Compiles revenues, expenditures, and project activity into the annual TIF report each municipality files with the Illinois Comptroller.</p>
+          <p class="gets"><b>You get:</b> reports ready for review, with every figure traced to its source.</p>
+        </article>
+        <article class="solution">
+          <span class="tag">Attraction</span>
+          <h3>Business Attraction Insights</h3>
+          <p>Studies local spending, vacant storefronts, and nearby competition to identify the retailers, restaurants, and employers a district can support.</p>
+          <p class="gets"><b>You get:</b> a target list of business types to recruit, with the reasoning behind each.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="city-brief" class="brief-band">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Try it now</span>
+        <h2>Get an AI City Brief in about a minute</h2>
+        <p>Choose your city and your priorities. Our AI drafts a first-look brief on where TIF and grant funding could help. Then request the verified TIF status for your city from our team.</p>
+      </div>
+      <div class="brief-grid">
+        <form class="brief-form" id="briefForm">
+          <div class="field-row">
+            <div class="field">
+              <label for="countySelect">County</label>
+              <select id="countySelect">
+                <option value="">Select county…</option>
+                <option value="cook">Cook County</option>
+                <option value="dupage">DuPage County</option>
+                <option value="kane">Kane County</option>
+                <option value="kendall">Kendall County</option>
+                <option value="lake">Lake County</option>
+                <option value="mchenry">McHenry County</option>
+                <option value="will">Will County</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="citySelect">City</label>
+              <select id="citySelect" disabled>
+                <option value="">Select city…</option>
+              </select>
+            </div>
+          </div>
+          <fieldset class="field">
+            <legend>Priorities</legend>
+            <div class="chips" id="goalChips">
+              <label class="chip"><input type="checkbox" id="goal-downtown" value="Revitalize the downtown or main street" checked><span>Downtown revival</span></label>
+              <label class="chip"><input type="checkbox" id="goal-retail" value="Attract retail and restaurants"><span>Retail &amp; dining</span></label>
+              <label class="chip"><input type="checkbox" id="goal-jobs" value="Bring industrial and employment jobs"><span>Industrial jobs</span></label>
+              <label class="chip"><input type="checkbox" id="goal-housing" value="Add housing, including affordable and mixed-use"><span>Housing</span></label>
+              <label class="chip"><input type="checkbox" id="goal-infra" value="Fix roads, water, and other infrastructure"><span>Infrastructure</span></label>
+              <label class="chip"><input type="checkbox" id="goal-vacant" value="Redevelop vacant or contaminated sites"><span>Vacant sites</span></label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="briefNotes">Anything else we should know? (optional)</label>
+            <textarea id="briefNotes" placeholder="Example: a closed shopping center on the east side, and a rail spur that is no longer used."></textarea>
+          </div>
+          <div class="brief-actions">
+            <button type="submit" class="btn btn-teal" id="briefGo" disabled>Generate AI City Brief</button>
+            <button type="button" class="btn btn-ghost" id="briefStop" hidden>Stop</button>
+          </div>
+          <p class="brief-note" id="briefNote">Select a county and city to start.</p>
+        </form>
+
+        <article class="memo" aria-live="polite">
+          <div class="memo-head">
+            <div>
+              <div class="memo-kicker">Draft · AI-generated</div>
+              <h3 class="memo-title" id="memoTitle">City Economic Development Brief</h3>
+            </div>
+            <div class="memo-meta" id="memoMeta">Prepared by BBDIG AI</div>
+          </div>
+          <div class="memo-body" id="memoBody">
+            <div class="memo-empty">
+              <p>Your brief will appear here. It covers:</p>
+              <ol>
+                <li>A snapshot of your city's economy and location</li>
+                <li>Opportunities tied to the priorities you pick</li>
+                <li>Where a TIF district could help</li>
+                <li>Grant programs worth exploring</li>
+                <li>Questions to confirm with our team</li>
+              </ol>
+            </div>
+          </div>
+          <div class="memo-foot">
+            <p>This is a first draft written by AI from general knowledge. It does not show your city's current TIF status. BBDIG verifies every detail.</p>
+            <a href="#contact" class="btn btn-action" id="lookupCta">Request TIF status for this city</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="community" class="community">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Why it matters</span>
+        <h2>The communities we build for</h2>
+        <p>Strong districts bring people out to shop, eat, and spend time together. That everyday activity is what turns new development into lasting value for a city.</p>
+      </div>
+      <div class="gallery">
+        <figure class="shot">
+          <img src="/assets/img/community-1.jpg" alt="Three friends walking through a mall with shopping bags" width="800" height="600" loading="lazy">
+        </figure>
+        <figure class="shot">
+          <img src="/assets/img/community-2.jpg" alt="Neighbors walking their dogs along a park path, with a playground in the background" width="800" height="600" loading="lazy">
+        </figure>
+        <figure class="shot">
+          <img src="/assets/img/community-3.jpg" alt="Chicago skyline at night across Lake Michigan" width="800" height="600" loading="lazy">
+        </figure>
+        <figure class="shot">
+          <img src="/assets/img/community-4.jpg" alt="Two friends walking arm in arm after shopping" width="800" height="600" loading="lazy">
+        </figure>
+        <figure class="shot">
+          <img src="/assets/img/community-5.jpg" alt="Friends raising a toast over dinner" width="800" height="600" loading="lazy">
+        </figure>
+        <figure class="shot">
+          <img src="/assets/img/community-6.jpg" alt="A couple on a dinner date at a restaurant" width="800" height="600" loading="lazy">
+        </figure>
+        <figure class="shot">
+          <img src="/assets/img/community-7.jpg" alt="A family shopping for groceries together" width="800" height="600" loading="lazy">
+        </figure>
+        <figure class="shot">
+          <img src="/assets/img/community-8.jpg" alt="Picking out fresh produce at the grocery store" width="800" height="600" loading="lazy">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">TIF Programs</span>
+        <h2>How our TIF programs work</h2>
+        <p>Tax Increment Financing lets a district reinvest its own future growth. We manage every stage, and AI speeds up the research at each one.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3>Assess the opportunity</h3>
+          <p>We review your city's goals, sites, and existing districts to decide whether TIF is the right tool.</p>
+          <p class="ai-line">AI: eligibility screening and business attraction insights</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3>Designate the district</h3>
+          <p>We map the boundary, document need, and file the eligibility study and redevelopment plan for approval.</p>
+          <p class="ai-line">AI: parcel research and increment forecasts</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3>Fund the project with grants</h3>
+          <p>We find eligible grant programs and manage applications, so the work is funded without bonds or private capital.</p>
+          <p class="ai-line">AI: grant matching and application drafts</p>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <h3>Track &amp; report increment</h3>
+          <p>We monitor assessed value growth against the base and prepare the annual report each cycle, so the district stays in good standing.</p>
+          <p class="ai-line">AI: automated TIF reporting</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why-cities" class="whycities">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Why cities partner with us</h2>
+        <p>A TIF district only delivers value if it's formed correctly and funded without adding risk to the city's balance sheet.</p>
+      </div>
+      <div class="pillars-4">
+        <div class="pillar">
+          <h3>No new debt</h3>
+          <p>Every project is funded through grants, never bonds or private capital, so the city takes on no repayment obligation or interest risk.</p>
+        </div>
+        <div class="pillar">
+          <h3>Faster answers</h3>
+          <p>AI research tools shorten the time from first conversation to a funded plan, without adding work for city staff.</p>
+        </div>
+        <div class="pillar">
+          <h3>Compliance handled end to end</h3>
+          <p>Eligibility studies, redevelopment plans, and annual increment reports are prepared and filed for you.</p>
+        </div>
+        <div class="pillar">
+          <h3>People accountable for every result</h3>
+          <p>One BBDIG team reviews every AI output and manages formation, grants, and reporting, so you have one point of contact.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="strategies">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Other strategies cities use</h2>
+        <p>TIF is one tool among many. Cities use a range of approaches to attract and retain businesses in their neighborhoods, and we can help you evaluate which fit.</p>
+      </div>
+      <ul class="strategy-list">
+        <li>
+          <h3>Special Service Areas (SSAs) and Business Improvement Districts (BIDs)</h3>
+          <p>Local business or property owners agree to a special tax assessment on themselves to fund clean streets, coordinated marketing, security, and district management.</p>
+        </li>
+        <li>
+          <h3>Façade improvement grants</h3>
+          <p>Direct grants or low-interest loans from the city that help storefronts upgrade their signs, windows, and exterior appearance.</p>
+        </li>
+        <li>
+          <h3>Enterprise zones and economic incentive zones</h3>
+          <p>State or locally designated areas offering tax credits, sales tax exemptions on building materials, or utility discounts for job-creating businesses.</p>
+        </li>
+        <li>
+          <h3>Small business technical assistance and incubators</h3>
+          <p>Free legal, financial, or marketing training, plus affordable shared commercial space and pop-up retail opportunities.</p>
+        </li>
+        <li>
+          <h3>Streamlined permitting and zoning relief</h3>
+          <p>Expedited plan reviews, fee waivers, and flexible zoning rules such as mixed-use overlays, making it easier and faster for businesses to open or expand.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Why BBDIG exists</h2>
+      </div>
+      <div class="about-inner">
+        <p>BBDIG, the Brown Business Development &amp; Investment Group, was founded on a simple belief: growth a community creates should be reinvested in that community.</p>
+        <div>
+          <p>Tax Increment Financing is one of the few tools that does this directly, but it only works when the district is well formed, the grant funding is secured, and the increment is tracked year over year. That oversight is where we focus: grants only, no bonds, no outside investors.</p>
+          <p>We use AI to do that work faster and more thoroughly, and we keep people responsible for every decision. Our work stays local and specific: the districts, projects, and municipal partners that make up cities' economies.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Tell us about your city</h2>
+        <p>Reach out directly, or send a short note and we'll follow up.</p>
+      </div>
+      <div class="contact-inner">
+        <ul class="contact-list">
+          <li><span>Email</span><span>info@bgrants.com</span></li>
+          <li><span>Phone</span><span>(312) 650-9266</span></li>
+          <li><span>Location</span><span>1 East Erie St. Suite 525-4681, Chicago, IL 60611</span></li>
+        </ul>
+        <form class="inquire" id="inquireForm">
+          <input type="text" id="inqName" placeholder="Your name" required>
+          <input type="email" id="inqEmail" placeholder="Email address" required>
+          <input type="text" id="inqCity" placeholder="City or municipality">
+          <textarea id="inqMsg" placeholder="What are you building?"></textarea>
+          <button type="submit" class="btn btn-action">Send inquiry</button>
+          <p class="form-status" id="formStatus" hidden></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span>© 2026 BBDIG — Brown Business Development &amp; Investment Group</span>
+  <span>1 East Erie St. Suite 525-4681, Chicago, IL 60611</span>
+</footer>
+
+<script>
+  const tifCities = {
+    cook: ["Alsip", "Arlington Heights", "Barrington", "Barrington Hills", "Bartlett", "Bedford Park", "Bellwood", "Bensenville", "Berkeley", "Berwyn", "Blue Island", "Bridgeview", "Broadview", "Brookfield", "Buffalo Grove", "Burbank", "Burnham", "Burr Ridge", "Calumet City", "Calumet Park", "Chicago", "Chicago Heights", "Chicago Ridge", "Cicero", "Country Club Hills", "Countryside", "Crestwood", "Deer Park", "Deerfield", "Des Plaines", "Dixmoor", "Dolton", "East Dundee", "East Hazel Crest", "Elgin", "Elk Grove Village", "Elmhurst", "Elmwood Park", "Evanston", "Evergreen Park", "Flossmoor", "Ford Heights", "Forest Park", "Forest View", "Frankfort", "Franklin Park", "Glencoe", "Glenview", "Glenwood", "Golf", "Hanover Park", "Harvey", "Harwood Heights", "Hazel Crest", "Hickory Hills", "Hillside", "Hinsdale", "Hodgkins", "Hoffman Estates", "Homer Glen", "Hometown", "Homewood", "Indian Head Park", "Inverness", "Justice", "Kenilworth", "La Grange", "La Grange Park", "Lansing", "Lemont", "Lincolnwood", "Lynwood", "Lyons", "Markham", "Matteson", "Maywood", "McCook", "Melrose Park", "Merrionette Park", "Midlothian", "Morton Grove", "Mount Prospect", "Niles", "Norridge", "North Riverside", "Northbrook", "Northfield", "Northlake", "Oak Brook", "Oak Forest", "Oak Lawn", "Oak Park", "Olympia Fields", "Orland Hills", "Orland Park", "Palatine", "Palos Heights", "Palos Hills", "Palos Park", "Park Forest", "Park Ridge", "Phoenix", "Posen", "Prospect Heights", "Richton Park", "River Forest", "River Grove", "Riverdale", "Riverside", "Robbins", "Rolling Meadows", "Roselle", "Rosemont", "Sauk Village", "Schaumburg", "Schiller Park", "Skokie", "South Barrington", "South Chicago Heights", "South Holland", "Steger", "Stickney", "Stone Park", "Streamwood", "Summit", "Thornton", "Tinley Park", "University Park", "Westchester", "Western Springs", "Wheeling", "Willow Springs", "Wilmette", "Winnetka", "Woodridge", "Worth"],
+    dupage: ["Addison", "Aurora", "Bartlett", "Batavia", "Bensenville", "Bloomingdale", "Bolingbrook", "Burr Ridge", "Carol Stream", "Chicago", "Clarendon Hills", "Darien", "Downers Grove", "Elk Grove Village", "Elmhurst", "Glen Ellyn", "Glendale Heights", "Hanover Park", "Hinsdale", "Itasca", "Lemont", "Lisle", "Lombard", "Naperville", "Oak Brook", "Oakbrook Terrace", "Roselle", "Schaumburg", "St. Charles", "Villa Park", "Warrenville", "Wayne", "West Chicago", "Westmont", "Wheaton", "Willow Springs", "Willowbrook", "Winfield", "Wood Dale", "Woodridge"],
+    kane: ["Algonquin", "Aurora", "Barrington Hills", "Bartlett", "Batavia", "Big Rock", "Burlington", "Campton Hills", "Carpentersville", "East Dundee", "Elburn", "Elgin", "Geneva", "Gilberts", "Hampshire", "Hoffman Estates", "Huntley", "Kaneville", "Lily Lake", "Maple Park", "Montgomery", "North Aurora", "Pingree Grove", "Sleepy Hollow", "South Elgin", "St. Charles", "Sugar Grove", "Virgil", "Wayne", "West Dundee"],
+    kendall: ["Aurora", "Joliet", "Lisbon", "Millbrook", "Millington", "Minooka", "Montgomery", "Newark", "Oswego", "Plainfield", "Plano", "Plattville", "Sandwich", "Yorkville"],
+    lake: ["Antioch", "Bannockburn", "Barrington", "Barrington Hills", "Beach Park", "Buffalo Grove", "Deer Park", "Deerfield", "Fox Lake", "Fox River Grove", "Grayslake", "Green Oaks", "Gurnee", "Hainesville", "Hawthorn Woods", "Highland Park", "Highwood", "Indian Creek", "Island Lake", "Kildeer", "Lake Barrington", "Lake Bluff", "Lake Forest", "Lake Villa", "Lake Zurich", "Lakemoor", "Libertyville", "Lincolnshire", "Lindenhurst", "Long Grove", "Mettawa", "Mundelein", "North Barrington", "North Chicago", "Old Mill Creek", "Park City", "Port Barrington", "Riverwoods", "Round Lake", "Round Lake Beach", "Round Lake Heights", "Round Lake Park", "Third Lake", "Tower Lakes", "Vernon Hills", "Volo", "Wadsworth", "Wauconda", "Waukegan", "Wheeling", "Winthrop Harbor", "Zion"],
+    mchenry: ["Algonquin", "Barrington Hills", "Bull Valley", "Cary", "Crystal Lake", "Fox Lake", "Fox River Grove", "Greenwood", "Harvard", "Hebron", "Holiday Hills", "Huntley", "Island Lake", "Johnsburg", "Lake in the Hills", "Lakemoor", "Lakewood", "Marengo", "McCullom Lake", "McHenry", "Oakwood Hills", "Port Barrington", "Prairie Grove", "Richmond", "Ringwood", "Spring Grove", "Trout Valley", "Union", "Wonder Lake", "Woodstock"],
+    will: ["Aurora", "Beecher", "Bolingbrook", "Braidwood", "Channahon", "Coal City", "Crest Hill", "Crete", "Diamond", "Elwood", "Frankfort", "Godley", "Homer Glen", "Joliet", "Lemont", "Lockport", "Manhattan", "Minooka", "Mokena", "Monee", "Naperville", "New Lenox", "Orland Park", "Oswego", "Park Forest", "Peotone", "Plainfield", "Rockdale", "Romeoville", "Shorewood", "Steger", "Symerton", "Tinley Park", "University Park", "Wilmington", "Woodridge"]
+  };
+  const countySelect = document.getElementById('countySelect');
+  const citySelect = document.getElementById('citySelect');
+  const briefForm = document.getElementById('briefForm');
+  const briefGo = document.getElementById('briefGo');
+  const briefStop = document.getElementById('briefStop');
+  const briefNote = document.getElementById('briefNote');
+  const memoTitle = document.getElementById('memoTitle');
+  const memoMeta = document.getElementById('memoMeta');
+  const memoBody = document.getElementById('memoBody');
+  const lookupCta = document.getElementById('lookupCta');
+  let sample = null;
+  let aiState = 'loading'; // loading | ready | off
+  let ctl = null;
+
+  function countyLabel(){ return countySelect.options[countySelect.selectedIndex].textContent; }
+  function placeLabel(){ return citySelect.value ? citySelect.value + ', ' + countyLabel() : ''; }
+
+  function refreshControls(){
+    const hasCity = !!citySelect.value;
+    briefGo.disabled = !hasCity || aiState !== 'ready' || !!ctl;
+    if (aiState === 'off'){
+      briefGo.hidden = true;
+      briefNote.textContent = hasCity
+        ? 'Request your city brief and current TIF status below, and our team will prepare it.'
+        : 'Select a county and city, then request its TIF status from our team.';
+    } else if (!hasCity){
+      briefNote.textContent = 'Select a county and city to start.';
+    } else if (aiState === 'loading'){
+      briefNote.textContent = 'Connecting to the AI brief…';
+    } else if (!ctl){
+      briefNote.textContent = 'Uses your Claude account. You may be asked to allow it the first time.';
+    }
+  }
+
+  countySelect.addEventListener('change', () => {
+    const county = countySelect.value;
+    citySelect.innerHTML = '<option value="">Select city…</option>';
+    citySelect.disabled = !county;
+    if (county){
+      tifCities[county].forEach(city => {
+        const opt = document.createElement('option');
+        opt.value = city; opt.textContent = city;
+        citySelect.appendChild(opt);
+      });
+    }
+    refreshControls();
+  });
+  citySelect.addEventListener('change', () => {
+    if (citySelect.value){
+      memoTitle.textContent = citySelect.value + ' Economic Development Brief';
+      memoMeta.textContent = countyLabel() + ', Illinois';
+    }
+    refreshControls();
+  });
+
+  lookupCta.addEventListener('click', () => {
+    const place = placeLabel();
+    const cityField = document.getElementById('inqCity');
+    const msgField = document.getElementById('inqMsg');
+    if (place && !cityField.value) cityField.value = place;
+    if (place && !msgField.value) msgField.value = "I'd like to know the current TIF district status for " + place + ".";
+  });
+
+  // Render the "## heading / - bullet" plain text the brief prompt asks for, without innerHTML.
+  function renderBrief(text){
+    memoBody.replaceChildren();
+    let list = null;
+    for (const raw of text.split('\n')){
+      const line = raw.trim();
+      if (!line){ list = null; continue; }
+      if (line.startsWith('#')){
+        list = null;
+        const h = document.createElement('h4');
+        h.textContent = line.replace(/^#+\s*/, '');
+        memoBody.appendChild(h);
+      } else if (/^[-*•]\s+/.test(line)){
+        if (!list){ list = document.createElement('ul'); memoBody.appendChild(list); }
+        const li = document.createElement('li');
+        li.textContent = line.replace(/^[-*•]\s+/, '').replace(/\*\*/g, '');
+        list.appendChild(li);
+      } else {
+        list = null;
+        const p = document.createElement('p');
+        p.textContent = line.replace(/\*\*/g, '');
+        memoBody.appendChild(p);
+      }
+    }
+  }
+  function status(msg){
+    memoBody.replaceChildren();
+    const p = document.createElement('p');
+    p.className = 'memo-status';
+    p.textContent = msg;
+    memoBody.appendChild(p);
+  }
+
+  function buildPrompt(){
+    const goals = [...document.querySelectorAll('#goalChips input:checked')].map(i => i.value);
+    const notes = document.getElementById('briefNotes').value.trim().slice(0, 1500);
+    return [
+      'You are drafting a first-look economic development brief for BBDIG (Brown Business Development & Investment Group).',
+      'BBDIG helps Illinois municipalities form Tax Increment Financing (TIF) districts, funds district projects with grants only (never bonds or private investors), and handles annual TIF compliance reporting.',
+      '',
+      'Municipality: ' + citySelect.value + ', ' + countyLabel() + ', Illinois',
+      'City priorities: ' + (goals.length ? goals.join('; ') : 'not specified'),
+      'Notes from the city official: ' + (notes || 'none'),
+      '',
+      'Write for a city manager or economic development director. Use exactly these sections, each starting with "## ":',
+      '## Snapshot — 2 to 3 sentences on what is generally known about the municipality\'s location and economy.',
+      '## Opportunities — 3 or 4 bullets tied to the priorities.',
+      '## Where TIF could help — 2 or 3 bullets. Mention Illinois TIF Act area types (blighted, conservation, industrial park conservation) only as possibilities to evaluate.',
+      '## Grant programs to explore — 3 bullets naming program types or well-known federal or Illinois programs, each ending with "(verify current availability)".',
+      '## Questions to confirm — 3 bullets BBDIG should answer with the city.',
+      '## Next step — one sentence inviting the city to request a BBDIG assessment.',
+      '',
+      'Rules: under 350 words. Do not invent statistics, dollar amounts, dates, names of existing TIF districts, or any current TIF status. If you know little about this municipality, say so plainly in the Snapshot and keep to general guidance. Plain text only: "## " headings and "- " bullets, no bold, no tables.'
+    ].join('\n');
+  }
+
+  const errorCopy = {
+    rate_limited: 'Too many requests right now. Please try again in a few minutes.',
+    session_expired: 'Please sign in to Claude again, then try once more.',
+    refused: 'The AI could not write a brief for this request. Try different notes.',
+    empty_completion: 'The AI returned an empty brief. Try again with fewer notes.',
+    upstream_error: 'The connection was interrupted. Please try again.'
+  };
+  const hideCodes = ['not_granted', 'sampling_disabled', 'not_declared', 'capability_disabled', 'capability_removed'];
+
+  briefForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!sample || !citySelect.value || ctl) return;
+    ctl = new AbortController();
+    briefStop.hidden = false;
+    refreshControls();
+    briefNote.textContent = 'Writing your brief…';
+    status('Thinking… This usually takes 20 to 60 seconds.');
+    try {
+      const { truncated } = await sample(buildPrompt(), {
+        signal: ctl.signal,
+        onText: ({ text }) => renderBrief(text)
+      });
+      briefNote.textContent = truncated ? 'The brief was cut short. Try again with fewer priorities.' : 'Brief ready. Request verified TIF status from our team below it.';
+    } catch (err) {
+      if (err && err.text) renderBrief(err.text + '\n\n(Interrupted)');
+      else if (err && err.code === 'cancelled') status('Stopped.');
+      else status('No brief yet.');
+      if (err && hideCodes.includes(err.code)){ aiState = 'off'; }
+      else if (err && err.code !== 'cancelled'){ briefNote.textContent = errorCopy[err.code] || errorCopy.upstream_error; }
+    } finally {
+      ctl = null;
+      briefStop.hidden = true;
+      refreshControls();
+      if (aiState === 'ready' && briefNote.textContent === 'Uses your Claude account. You may be asked to allow it the first time.') briefNote.textContent = 'Change your priorities and generate again anytime.';
+    }
+  });
+  briefStop.addEventListener('click', () => ctl?.abort());
+
+  (async () => {
+    try { sample = window.claude ? await window.claude.use('sample') : null; } catch { sample = null; }
+    aiState = sample ? 'ready' : 'off';
+    refreshControls();
+  })();
+
+  document.getElementById('inquireForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const s = document.getElementById('formStatus');
+    s.hidden = false;
+    s.textContent = 'Thanks. This page cannot send messages yet, so please email your note to info@bgrants.com or call (312) 650-9266.';
+  });
+</script>
+
+</body>
+</html>
