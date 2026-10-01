@@ -603,6 +603,7 @@
           <input type="email" id="inqEmail" placeholder="Email address" required>
           <input type="text" id="inqCity" placeholder="City or municipality">
           <textarea id="inqMsg" placeholder="What are you building?"></textarea>
+          <input type="text" id="inqWebsite" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <button type="submit" class="btn btn-action">Send inquiry</button>
           <p class="form-status" id="formStatus" hidden></p>
         </form>
@@ -636,8 +637,7 @@
   const memoMeta = document.getElementById('memoMeta');
   const memoBody = document.getElementById('memoBody');
   const lookupCta = document.getElementById('lookupCta');
-  let sample = null;
-  let aiState = 'loading'; // loading | ready | off
+  let aiState = 'ready'; // ready | off (server says the AI is not configured)
   let ctl = null;
 
   function countyLabel(){ return countySelect.options[countySelect.selectedIndex].textContent; }
@@ -656,7 +656,7 @@
     } else if (aiState === 'loading'){
       briefNote.textContent = 'Connecting to the AI brief…';
     } else if (!ctl){
-      briefNote.textContent = 'Uses your Claude account. You may be asked to allow it the first time.';
+      briefNote.textContent = 'Ready. A brief takes about 20 to 60 seconds.';
     }
   }
 
@@ -722,78 +722,101 @@
     memoBody.appendChild(p);
   }
 
-  function buildPrompt(){
-    const goals = [...document.querySelectorAll('#goalChips input:checked')].map(i => i.value);
-    const notes = document.getElementById('briefNotes').value.trim().slice(0, 1500);
-    return [
-      'You are drafting a first-look economic development brief for BBDIG (Brown Business Development & Investment Group).',
-      'BBDIG helps Illinois municipalities form Tax Increment Financing (TIF) districts, funds district projects with grants only (never bonds or private investors), and handles annual TIF compliance reporting.',
-      '',
-      'Municipality: ' + citySelect.value + ', ' + countyLabel() + ', Illinois',
-      'City priorities: ' + (goals.length ? goals.join('; ') : 'not specified'),
-      'Notes from the city official: ' + (notes || 'none'),
-      '',
-      'Write for a city manager or economic development director. Use exactly these sections, each starting with "## ":',
-      '## Snapshot — 2 to 3 sentences on what is generally known about the municipality\'s location and economy.',
-      '## Opportunities — 3 or 4 bullets tied to the priorities.',
-      '## Where TIF could help — 2 or 3 bullets. Mention Illinois TIF Act area types (blighted, conservation, industrial park conservation) only as possibilities to evaluate.',
-      '## Grant programs to explore — 3 bullets naming program types or well-known federal or Illinois programs, each ending with "(verify current availability)".',
-      '## Questions to confirm — 3 bullets BBDIG should answer with the city.',
-      '## Next step — one sentence inviting the city to request a BBDIG assessment.',
-      '',
-      'Rules: under 350 words. Do not invent statistics, dollar amounts, dates, names of existing TIF districts, or any current TIF status. If you know little about this municipality, say so plainly in the Snapshot and keep to general guidance. Plain text only: "## " headings and "- " bullets, no bold, no tables.'
-    ].join('\n');
+  function goalKeys(){
+    return [...document.querySelectorAll('#goalChips input:checked')].map(i => i.id.replace('goal-', ''));
   }
-
-  const errorCopy = {
-    rate_limited: 'Too many requests right now. Please try again in a few minutes.',
-    session_expired: 'Please sign in to Claude again, then try once more.',
-    refused: 'The AI could not write a brief for this request. Try different notes.',
-    empty_completion: 'The AI returned an empty brief. Try again with fewer notes.',
-    upstream_error: 'The connection was interrupted. Please try again.'
-  };
-  const hideCodes = ['not_granted', 'sampling_disabled', 'not_declared', 'capability_disabled', 'capability_removed'];
 
   briefForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (!sample || !citySelect.value || ctl) return;
+    if (aiState !== 'ready' || !citySelect.value || ctl) return;
     ctl = new AbortController();
     briefStop.hidden = false;
     refreshControls();
     briefNote.textContent = 'Writing your brief…';
     status('Thinking… This usually takes 20 to 60 seconds.');
+    let text = '';
     try {
-      const { truncated } = await sample(buildPrompt(), {
+      const r = await fetch('/api/brief', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         signal: ctl.signal,
-        onText: ({ text }) => renderBrief(text)
+        body: JSON.stringify({
+          county: countySelect.value,
+          city: citySelect.value,
+          goals: goalKeys(),
+          notes: document.getElementById('briefNotes').value.slice(0, 1500)
+        })
       });
-      briefNote.textContent = truncated ? 'The brief was cut short. Try again with fewer priorities.' : 'Brief ready. Request verified TIF status from our team below it.';
+      if (r.status === 503){
+        aiState = 'off';
+        status('No brief yet.');
+        return;
+      }
+      if (!r.ok || !r.body){
+        status('No brief yet.');
+        briefNote.textContent = r.status === 429 ? 'The AI is busy right now. Please try again in a few minutes.' : 'Something went wrong. Please try again.';
+        return;
+      }
+      const reader = r.body.getReader();
+      const dec = new TextDecoder();
+      for (;;){
+        const { value, done } = await reader.read();
+        if (done) break;
+        text += dec.decode(value, { stream: true });
+        if (text.trim()) renderBrief(text);
+      }
+      briefNote.textContent = 'Brief ready. Request verified TIF status from our team below it.';
     } catch (err) {
-      if (err && err.text) renderBrief(err.text + '\n\n(Interrupted)');
-      else if (err && err.code === 'cancelled') status('Stopped.');
-      else status('No brief yet.');
-      if (err && hideCodes.includes(err.code)){ aiState = 'off'; }
-      else if (err && err.code !== 'cancelled'){ briefNote.textContent = errorCopy[err.code] || errorCopy.upstream_error; }
+      if (err && err.name === 'AbortError'){
+        if (text.trim()) renderBrief(text + '\n\n(Stopped)'); else status('Stopped.');
+        briefNote.textContent = 'Stopped. Generate again anytime.';
+      } else {
+        if (text.trim()) renderBrief(text + '\n\n(Interrupted)'); else status('No brief yet.');
+        briefNote.textContent = 'The connection was interrupted. Please try again.';
+      }
     } finally {
       ctl = null;
       briefStop.hidden = true;
       refreshControls();
-      if (aiState === 'ready' && briefNote.textContent === 'Uses your Claude account. You may be asked to allow it the first time.') briefNote.textContent = 'Change your priorities and generate again anytime.';
     }
   });
   briefStop.addEventListener('click', () => ctl?.abort());
+  refreshControls();
 
-  (async () => {
-    try { sample = window.claude ? await window.claude.use('sample') : null; } catch { sample = null; }
-    aiState = sample ? 'ready' : 'off';
-    refreshControls();
-  })();
-
-  document.getElementById('inquireForm').addEventListener('submit', (e) => {
+  const inquireForm = document.getElementById('inquireForm');
+  inquireForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const s = document.getElementById('formStatus');
+    const btn = inquireForm.querySelector('button[type="submit"]');
+    const fallback = 'Please email your note to info@bgrants.com or call (312) 650-9266.';
+    btn.disabled = true;
     s.hidden = false;
-    s.textContent = 'Thanks. This page cannot send messages yet, so please email your note to info@bgrants.com or call (312) 650-9266.';
+    s.textContent = 'Sending…';
+    try {
+      const r = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: document.getElementById('inqName').value,
+          email: document.getElementById('inqEmail').value,
+          city: document.getElementById('inqCity').value,
+          message: document.getElementById('inqMsg').value,
+          website: document.getElementById('inqWebsite').value
+        })
+      });
+      if (r.ok){
+        s.textContent = 'Thanks. Your message was sent, and our team will follow up soon.';
+        inquireForm.reset();
+      } else if (r.status === 400){
+        s.textContent = 'Please check your name and email address, then send again.';
+      } else {
+        s.textContent = 'Your message could not be sent from this page. ' + fallback;
+      }
+    } catch {
+      s.textContent = 'Your message could not be sent from this page. ' + fallback;
+    } finally {
+      btn.disabled = false;
+    }
   });
 </script>
 
