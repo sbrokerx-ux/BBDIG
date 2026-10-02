@@ -162,7 +162,18 @@
   .solution .gets{ margin-top: auto; padding-top: 6px; font-size: 14px; color: var(--espresso); }
   .solution .gets-more{ margin-top: 0; padding-top: 0; }
   .solution .gets b{ font-weight: 800; color: var(--teal-deep); }
-  .solution a.tif-act{ color: var(--green); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+  .solution .tif-act{ color: var(--green); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; background: none; border: 0; padding: 0; font: inherit; font-weight: 700; cursor: pointer; }
+  .solution .tif-act:focus-visible{ outline: 2px solid var(--green); outline-offset: 2px; border-radius: 2px; }
+  .tif-dialog{ max-width: 560px; width: calc(100% - 32px); border: 0; border-top: 4px solid var(--green); border-radius: var(--radius); padding: 26px 26px 22px; background: var(--white); color: var(--espresso); box-shadow: 0 20px 60px rgba(46,32,21,0.28); }
+  .tif-dialog::backdrop{ background: rgba(15,61,62,0.45); }
+  .tif-dialog h3{ font-size: 22px; color: var(--teal-deep); margin: 0 0 4px; }
+  .tif-dialog .cite{ font-size: 12px; color: var(--faint); margin: 0 0 14px; }
+  .tif-dialog p{ margin: 0 0 12px; font-size: 15px; color: var(--muted); }
+  .tif-dialog h4{ font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin: 16px 0 6px; }
+  .tif-dialog ul{ margin: 0 0 6px; padding-left: 18px; font-size: 15px; color: var(--muted); }
+  .tif-dialog li{ margin-bottom: 4px; }
+  .tif-dialog .close{ position: absolute; top: 10px; right: 12px; background: none; border: 0; font-size: 26px; line-height: 1; color: var(--muted); cursor: pointer; padding: 4px 8px; }
+  .tif-dialog .close:hover{ color: var(--espresso); }
   .solution a.inline{ color: var(--blue); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
 
   /* AI city brief */
@@ -338,7 +349,7 @@
         <article class="solution">
           <span class="tag">TIF</span>
           <h3>What Is TIF?</h3>
-          <p>Tax Increment Financing lets a city reinvest the new property tax growth in a district back into that district, for roads, utilities, site work and redevelopment. It is authorized by the <a class="tif-act" href="https://dceo.illinois.gov/expandrelocate/incentives/taxincrementfinancing.html" target="_blank" rel="noopener">Illinois TIF Act</a>, and a district can last up to 23 years.</p>
+          <p>Tax Increment Financing lets a city reinvest the new property tax growth in a district back into that district, for roads, utilities, site work and redevelopment. It is authorized by the <button type="button" class="tif-act" aria-haspopup="dialog" aria-controls="tifActDialog">Illinois TIF Act</button>, and a district can last up to 23 years.</p>
           <p class="gets"><b>You get:</b> funding for local projects without a new tax.</p>
         </article>
         <article class="solution">
@@ -684,6 +695,23 @@
   <span>1 East Erie St. Suite 525-4681, Chicago, IL 60611</span>
 </footer>
 
+<dialog class="tif-dialog" id="tifActDialog" aria-labelledby="tifActTitle">
+  <button type="button" class="close" aria-label="Close">&times;</button>
+  <h3 id="tifActTitle">The Illinois TIF Act</h3>
+  <p class="cite">Tax Increment Allocation Redevelopment Act, 65 ILCS 5/11-74.4</p>
+  <h4>What it is</h4>
+  <p>The Illinois law that lets cities and villages create Tax Increment Financing (TIF) districts. When a district is created, its property values are frozen at a base level. As values rise, the new property tax growth, called the increment, goes into a fund that can only be spent inside that district. Tax rates do not go up.</p>
+  <h4>What it does</h4>
+  <ul>
+    <li>Redevelops vacant, outdated or substandard buildings</li>
+    <li>Pays for public improvements such as streets, sewers and water lines</li>
+    <li>Cleans up polluted sites</li>
+    <li>Revives downtowns and restores historic properties</li>
+    <li>Prepares sites for new commercial or industrial use</li>
+  </ul>
+  <p style="margin-top:12px">A district can last up to 23 years, and the area must qualify under the Act before it can be created.</p>
+</dialog>
+
 <script>
   const tifCities = {
     cook: ["Alsip", "Arlington Heights", "Barrington", "Barrington Hills", "Bartlett", "Bedford Park", "Bellwood", "Bensenville", "Berkeley", "Berwyn", "Blue Island", "Bridgeview", "Broadview", "Brookfield", "Buffalo Grove", "Burbank", "Burnham", "Burr Ridge", "Calumet City", "Calumet Park", "Chicago", "Chicago Heights", "Chicago Ridge", "Cicero", "Country Club Hills", "Countryside", "Crestwood", "Deer Park", "Deerfield", "Des Plaines", "Dixmoor", "Dolton", "East Dundee", "East Hazel Crest", "Elgin", "Elk Grove Village", "Elmhurst", "Elmwood Park", "Evanston", "Evergreen Park", "Flossmoor", "Ford Heights", "Forest Park", "Forest View", "Frankfort", "Franklin Park", "Glencoe", "Glenview", "Glenwood", "Golf", "Hanover Park", "Harvey", "Harwood Heights", "Hazel Crest", "Hickory Hills", "Hillside", "Hinsdale", "Hodgkins", "Hoffman Estates", "Homer Glen", "Hometown", "Homewood", "Indian Head Park", "Inverness", "Justice", "Kenilworth", "La Grange", "La Grange Park", "Lansing", "Lemont", "Lincolnwood", "Lynwood", "Lyons", "Markham", "Matteson", "Maywood", "McCook", "Melrose Park", "Merrionette Park", "Midlothian", "Morton Grove", "Mount Prospect", "Niles", "Norridge", "North Riverside", "Northbrook", "Northfield", "Northlake", "Oak Brook", "Oak Forest", "Oak Lawn", "Oak Park", "Olympia Fields", "Orland Hills", "Orland Park", "Palatine", "Palos Heights", "Palos Hills", "Palos Park", "Park Forest", "Park Ridge", "Phoenix", "Posen", "Prospect Heights", "Richton Park", "River Forest", "River Grove", "Riverdale", "Riverside", "Robbins", "Rolling Meadows", "Roselle", "Rosemont", "Sauk Village", "Schaumburg", "Schiller Park", "Skokie", "South Barrington", "South Chicago Heights", "South Holland", "Steger", "Stickney", "Stone Park", "Streamwood", "Summit", "Thornton", "Tinley Park", "University Park", "Westchester", "Western Springs", "Wheeling", "Willow Springs", "Wilmette", "Winnetka", "Woodridge", "Worth"],
@@ -887,5 +915,14 @@
   });
 </script>
 
+<script>
+(function(){
+  var d=document.getElementById('tifActDialog'), b=document.querySelector('.tif-act');
+  if(!d||!b||typeof d.showModal!=='function') return;
+  b.addEventListener('click',function(){ d.showModal(); });
+  d.querySelector('.close').addEventListener('click',function(){ d.close(); b.focus(); });
+  d.addEventListener('click',function(e){ if(e.target===d){ d.close(); b.focus(); } });
+})();
+</script>
 </body>
 </html>
